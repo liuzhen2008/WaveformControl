@@ -42,7 +42,7 @@ public class WaveformView extends View {
     private Picture mCachedWaveform;
     private Bitmap mCachedWaveformBitmap;
     private int colorDelta = 255 / (HISTORY_SIZE + 1);
-    private boolean showTextAxis = true;
+    private boolean showTimeAxis = true;
 
     public WaveformView(Context context) {
         super(context);
@@ -193,8 +193,8 @@ public class WaveformView extends View {
         calculateAudioLength();
     }
 
-    public void shouldShowTextAxis(boolean shouldShow) {
-         showTextAxis = shouldShow;
+    public void shouldShowTimeAxis(boolean shouldShow) {
+         showTimeAxis = shouldShow;
     }
 
     private void calculateAudioLength() {
@@ -224,6 +224,7 @@ public class WaveformView extends View {
             postInvalidate();
         } else if (mMode == MODE_PLAYBACK) {
             mMarkerPosition = -1;
+            xStep = width / (mAudioLength * 1.0f);
             createPlaybackWaveform();
         }
     }
@@ -305,7 +306,7 @@ public class WaveformView extends View {
     }
 
     private void drawAxis(Canvas canvas, int width) {
-        if (!showTextAxis) return;
+        if (!showTimeAxis) return;
         int seconds = mAudioLength / 1000;
         float xStep = width / (mAudioLength / 1000f);
         float textHeight = mTextPaint.getTextSize();
